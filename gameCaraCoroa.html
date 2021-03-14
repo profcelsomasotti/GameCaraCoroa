@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game Cara Coroa</title>
+    <style>
+        #areaJogo {
+            width: 191px;
+            height: 400px;
+            border: 1px solid #AAA;
+        }
+        
+        #moeda {
+            width: 192px;
+            height: 192px;
+        }
+        
+        #aposta {
+            width: 192px;
+            height: 60px;
+            margin-bottom: 10px;
+            margin-top: 35px;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+        
+        #iniciaJogo {
+            width: 192px;
+        }
+        
+        #resultado {
+            width: 192px;
+            height: 60px;
+        }
+        
+        #resultado #apostaTxt {
+            width: 80px;
+            height: 60px;
+            float: left;
+            padding-top: 12px;
+            font-family: 'Courier New', Courier, monospace;
+        }
+        
+        #resultado #resultSorteado {
+            width: 80px;
+            height: 40px;
+            float: left;
+            padding-top: 15px;
+            font-family: 'Courier New', Courier, monospace;
+        }
+        
+        .cara {
+            background-color: #EEE;
+            border: 1px solid #555;
+            font-size: 9pt;
+            color: #F88;
+            padding: 6px;
+            padding-left: 12px;
+            padding-right: 12px;
+            border-radius: 12px;
+            display: inline;
+        }
+        
+        .coroa {
+            background-color: #EEE;
+            border: 1px solid #555;
+            font-size: 9pt;
+            color: #88F;
+            padding: 6px;
+            padding-left: 12px;
+            padding-right: 12px;
+            border-radius: 12px;
+            display: inline;
+        }
+        
+        .jogar {
+            background-color: #EEE;
+            border: 1px solid #555;
+            font-size: 9pt;
+            color: #3A3;
+            padding: 6px;
+            padding-left: 12px;
+            padding-right: 12px;
+            border-radius: 12px;
+        }
+        
+        #btCara {
+            float: left;
+            padding-left: 15px;
+        }
+        
+        #btCoroa {
+            padding-right: 15px;
+            float: right;
+        }
+    </style>
+</head>
+
+<body>
+    <center>
+        <h3>Jogo Cara Coroa</h3>
+        <div id="areaJogo">
+            <div id="moeda">
+
+            </div>
+            <hr>
+
+            <div id="iniciaJogo">
+                <button class="jogar" onclick="window.location='gameCaraCoroa.html';">Jogar</button>
+            </div>
+            <div id="aposta">
+                Faça sua aposta:<br /><br />
+                <div id="btCara">
+                    <button class="cara" onclick="this.disabled = true;">Cara</button>
+                </div>
+                <div id="btCoroa">
+                    <button class="coroa" onclick="this.disabled = true;">Coroa</button>
+                </div>
+            </div>
+            <div id="resultado">
+                <div id="apostaTxt"></div>
+                <div id="resultSorteado"></div>
+            </div>
+        </div>
+
+    </center>
+
+
+    <script>
+        function sorteiaMoeda(aposta) {
+            var sorteado = Math.round(Math.random());
+            if (sorteado == 0) {
+                delay = 2000;
+                setTimeout(function() {
+                    var img = document.createElement("IMG");
+                    img.src = "img/moeda_cara.png";
+                    img.style.width = "191px";
+                    img.style.height = "191px";
+                    document.getElementById('moeda').appendChild(img);
+                    if (aposta == "cara") {
+                        var j = document.getElementById("resultSorteado");
+                        j.style.backgroundColor = "#CFC";
+                        j.innerHTML = "ACERTOU!";
+                    } else {
+                        var j = document.getElementById("resultSorteado");
+                        j.style.backgroundColor = "#FCC";
+                        j.innerHTML = "ERROU!";
+                    }
+                }, delay);
+
+            } else {
+                delay = 2000;
+                setTimeout(function() {
+                    var img = document.createElement("IMG");
+                    img.src = "img/moeda_coroa.png";
+                    img.style.width = "191px";
+                    img.style.height = "191px";
+                    document.getElementById('moeda').appendChild(img);
+                    if (aposta == "cara") {
+                        var j = document.getElementById("resultSorteado");
+                        j.style.backgroundColor = "#FCC";
+                        j.innerHTML = "ERROU!";
+
+                    } else {
+                        var j = document.getElementById("resultSorteado");
+                        j.style.backgroundColor = "#CFC";
+                        j.innerHTML = "ACERTOU!";
+                    }
+                }, delay);
+
+            }
+        }
+
+
+        function opcaoCara() {
+
+            var bg = document.getElementById("resultado");
+            bg.style.backgroundColor = "#EEE";
+            var n = document.getElementById("apostaTxt");
+            n.innerHTML = "Aposta:<br>Cara";
+
+            var z = document.getElementsByClassName('coroa')[0].style.display;
+            if (z == "none") {
+                document.getElementsByClassName("coroa")[0].style.display = 'block';
+            } else {
+                document.getElementsByClassName("coroa")[0].style.display = 'none';
+            }
+
+            sorteiaMoeda("cara");
+
+        }
+
+
+        function opcaoCoroa() {
+
+            var bg = document.getElementById("resultado");
+            bg.style.backgroundColor = "#EEE";
+            var n = document.getElementById("apostaTxt");
+            n.innerHTML = "Aposta:<br>Coroa";
+
+            var z = document.getElementsByClassName('cara')[0].style.display;
+            if (z == "none") {
+                document.getElementsByClassName("cara")[0].style.display = 'block';
+            } else {
+                document.getElementsByClassName("cara")[0].style.display = 'none';
+            }
+
+            sorteiaMoeda("coroa");
+
+        }
+
+        function addEvents() {
+
+            var btOpcaoCara = document.getElementById("btCara");
+            btOpcaoCara.addEventListener("click", opcaoCara);
+            var btOpcaoCoroa = document.getElementById("btCoroa");
+            btOpcaoCoroa.addEventListener("click", opcaoCoroa);
+
+        }
+        window.addEventListener("load", addEvents);
+    </script>
+</body>
+
+</html>
